@@ -20,9 +20,9 @@ You will be prompted to:
 ## Screenshots
 
 ### Sample Run
-
+```
 Password Generator
-Password length: Hh 
+Password length: Hh
 Invalid input. Please enter an integer.
 Password length: 7
 Include numbers? (y/n): 9
@@ -37,5 +37,7 @@ $iX{P)W
 FEAB!K=
 {l)xw],
 qTXqo$|
+```
 
-![](sample-run.png)
+![Sample run](sample-run.png)
+
