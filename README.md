@@ -38,4 +38,4 @@ FEAB!K=
 {l)xw],
 qTXqo$|
 
-![](images/sample-run.png)
+![](sample-run.png)
