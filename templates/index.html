@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Password Generator</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="navbar">
+    <div class="logo">🔐</div>
+    <div class="title">Password Generator</div>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/history.html">History</a>
+    </div>
+  </div>
+
+  <!-- Add a wrapping form element -->
+  <form id="password-form">
+    <div class="main-layout">
+      <div class="left-panel">
+        <div class="sliders">
+          <label for="length">Password Length: <span id="lengthValue">12</span></label>
+          <input type="range" id="length" min="4" max="64" value="12">
+          
+          <label for="count">Number of Passwords: <span id="countValue">1</span></label>
+          <input type="range" id="count" min="1" max="10" value="1">
+        </div>
+      </div>
+
+      <div class="center-panel">
+        <button type="submit" id="generate">Generate</button>
+      </div>
+
+      <div class="right-panel">
+        <div class="checkboxes">
+          <label><input type="checkbox" id="useNumbers"> Include Numbers</label>
+          <label><input type="checkbox" id="useSpecials"> Include Special Characters</label>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <!-- Add a container for the results -->
+  <div id="results" style="padding: 20px;"></div>
+
+  <script>
+    const form = document.getElementById("password-form");
+    const results = document.getElementById("results");
+    const lengthSlider = document.getElementById("length");
+    const countSlider = document.getElementById("count");
+    const lengthVal = document.getElementById("lengthValue");
+    const countVal = document.getElementById("countValue");
+
+    const includeNumbers = document.getElementById("useNumbers");
+    const includeSpecials = document.getElementById("useSpecials");
+
+    lengthSlider.oninput = () => lengthVal.textContent = lengthSlider.value;
+    countSlider.oninput = () => countVal.textContent = countSlider.value;
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const length = parseInt(lengthSlider.value);
+      const count = parseInt(countSlider.value);
+
+      const res = await fetch("/generate-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          length,
+          count,
+          include_numbers: includeNumbers.checked,
+          include_specials: includeSpecials.checked
+        }),
+      });
+
+      const data = await res.json();
+      results.innerHTML = `<h2>Generated Password(s):</h2><ul>${data.passwords
+        .map(pw => `<li><code>${pw}</code></li>`)
+        .join("")}</ul>`;
+    });
+  </script>
+</body>
+</html>
+

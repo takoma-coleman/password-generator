@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Password History</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+
+    main {
+      flex-grow: 1;
+      max-width: 900px;
+      margin: 2rem auto;
+      background: white;
+      padding: 2rem 3rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+      font-weight: 700;
+      color: #2c3e50;
+    }
+
+    .history-entry {
+      margin-bottom: 2rem;
+    }
+
+    .history-entry h4 {
+      color: #2980b9;
+      margin-bottom: 0.3rem;
+      font-weight: 700;
+    }
+
+    .history-entry p {
+      margin: 0.2rem 0;
+      font-size: 1rem;
+    }
+
+    ul {
+      list-style-type: none;
+      padding-left: 0;
+      margin-top: 0.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    ul li {
+      background: #ecf0f1;
+      color: #2c3e50;
+      padding: 0.3rem 0.7rem;
+      border-radius: 5px;
+      font-family: monospace;
+      font-size: 0.9rem;
+      white-space: nowrap;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #ddd;
+      margin-top: 1.5rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      main {
+        padding: 1rem 1.5rem;
+      }
+      ul {
+        gap: 0.3rem;
+      }
+      ul li {
+        font-size: 0.8rem;
+        padding: 0.25rem 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="logo">🔐</div>
+    <div class="title">Password Generator</div>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/history.html">History</a>
+    </div>
+  </nav>
+
+  <main>
+    <h1>Past Passwords</h1>
+    <div id="history">
+      <!-- History entries will be loaded here -->
+    </div>
+  </main>
+
+  <script>
+    async function loadHistory() {
+      const response = await fetch('/history');
+      const data = await response.json();
+      const historyDiv = document.getElementById('history');
+      historyDiv.innerHTML = '';
+
+      if (!data.history.length) {
+        historyDiv.innerHTML = "<p>No history found.</p>";
+        return;
+      }
+
+      data.history.forEach(entry => {
+        const dateObj = new Date(entry.timestamp);
+
+        const options = {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+          hour12: true
+        };
+
+        const formattedDate = dateObj.toLocaleString('en-US', options);
+
+        const container = document.createElement('div');
+        container.classList.add('history-entry');
+
+        container.innerHTML = `
+          <h4>${formattedDate}</h4>
+          <p><strong>Length:</strong> ${entry.length}</p>
+          <p><strong>Include Numbers:</strong> ${entry.include_numbers}</p>
+          <p><strong>Include Specials:</strong> ${entry.include_specials}</p>
+          <p><strong>Count:</strong> ${entry.count}</p>
+          <p><strong>Passwords:</strong></p>
+          <ul>
+            ${entry.passwords.map(pw => `<li>${pw}</li>`).join('')}
+          </ul>
+          <hr>
+        `;
+
+        historyDiv.appendChild(container);
+      });
+    }
+
+    window.onload = loadHistory;
+  </script>
+</body>
+</html>
