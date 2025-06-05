@@ -14,8 +14,8 @@ A simple web-based password generator built with HTML, CSS, and JavaScript.
 
 ## Demo
 
-![Password Generator Screenshot](Password Generator website ss.png)
-![Password History Screenshot](Password Generator website ss(2).png)
+![Password Generator Screenshot](Screenshots/Demo1)
+![Password History Screenshot](Screenshots/Demo2)
 ## How to Use
 
 1. Open the `index.html` file in your web browser.
