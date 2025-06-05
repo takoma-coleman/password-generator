@@ -4,7 +4,7 @@
 ![GitHub stars](https://img.shields.io/github/stars/thomas2479/password-generator?style=social)
 ![GitHub forks](https://img.shields.io/github/forks/thomas2479/password-generator?style=social)
 
-A simple web-based password generator built with HTML, CSS, and JavaScript.
+A simple web-based password generator built with Python, HTML, CSS, and JavaScript.
 
 ## Features
 
@@ -28,6 +28,7 @@ A simple web-based password generator built with HTML, CSS, and JavaScript.
 - HTML
 - CSS
 - JavaScript
+- Python
 
 ## Project Setup
 
